@@ -4,7 +4,7 @@ import type { Request, Response } from "express";
  * List inventory devices.
  */
 export const listDevices = async (_req: Request, res: Response): Promise<void> => {
-  // TODO: Fetch devices from PostgreSQL.
+  // TODO: Fetch devices from MySQL.
   res.status(200).json({ data: [] });
 };
 

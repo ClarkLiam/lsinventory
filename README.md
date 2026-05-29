@@ -12,7 +12,7 @@ LS-Inventory is a self-hosted Event Tech Inventory Tracking System for microphon
 ## Architecture Overview
 - **Backend**: Node.js + Express + TypeScript
 - **Frontend**: HTML5 + CSS3 + JavaScript modules (responsive)
-- **Database**: PostgreSQL
+- **Database**: MySQL
 - **QR**: `qrcode` library + native camera workflow (frontend placeholder)
 - **PDF**: `pdfkit`
 
@@ -36,6 +36,7 @@ lsinventory/
 │   ├── css/styles.css
 │   └── js/
 ├── database/schema.sql
+├── database/schema.mysql.sql
 ├── docs/
 ├── features.md
 └── .gitignore
@@ -51,9 +52,9 @@ lsinventory/
    ```bash
    cp config/.env.example config/.env
    ```
-3. Initialize PostgreSQL schema:
+3. Initialize MySQL schema:
    ```bash
-   psql -U <user> -d <database> -f ../database/schema.sql
+   mysql -u <user> -p <database> < ../database/schema.mysql.sql
    ```
 4. Run backend:
    ```bash
@@ -87,7 +88,7 @@ See full details in `docs/API.md`.
 ## Configuration
 `backend/config/.env.example` includes:
 - Server: `PORT`, `NODE_ENV`, `JWT_SECRET`, `FRONTEND_URL`
-- PostgreSQL: `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`
+- MySQL: `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_CONNECTION_LIMIT`, `DB_QUEUE_LIMIT`
 
 ## Development Setup
 - Backend build:
