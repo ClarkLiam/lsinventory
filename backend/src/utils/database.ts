@@ -36,7 +36,7 @@ export const query = async <T extends QueryResult = QueryResult>(
     const [result] = await connection.query<T>(sql, params);
     return result;
   } catch (error) {
-    console.error("MySQL query failed", error);
+    console.error("MySQL query failed");
     throw error;
   } finally {
     connection?.release();
