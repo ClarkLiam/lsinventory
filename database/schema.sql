@@ -23,11 +23,12 @@ CREATE TABLE IF NOT EXISTS devices (
   model VARCHAR(120) NOT NULL,
   category VARCHAR(120) NOT NULL,
   serial_number VARCHAR(120),
-  location_id INT REFERENCES locations(id),
+  location_id INT,
   status VARCHAR(50) NOT NULL DEFAULT 'available',
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  UNIQUE KEY device_identity_unique (inv_code, unit_id, optional_field)
+  UNIQUE KEY device_identity_unique (inv_code, unit_id, optional_field),
+  FOREIGN KEY (location_id) REFERENCES locations(id)
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS device_locations (
