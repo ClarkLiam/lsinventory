@@ -3,7 +3,7 @@
 LS-Inventory is a self-hosted Event Tech Inventory Tracking System for microphones, lights, consoles, cases, and other production equipment.
 
 ## Purpose and Key Features
-- Track devices with the `INV-XXXX XX XX` identifier format.
+- Track devices with the `LSM@XXXXXXXX` identifier format.
 - Manage storage locations and project/job assignments.
 - Generate QR data for labels and scan-based workflows.
 - Build packsheets and export printable PDFs.
