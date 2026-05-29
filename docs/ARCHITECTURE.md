@@ -3,7 +3,7 @@
 ## High-level design
 - **Frontend**: responsive static web app (`frontend/public`) for desktop and mobile workflows.
 - **Backend**: Node.js + Express + TypeScript REST API (`backend/src`).
-- **Database**: PostgreSQL schema in `database/schema.sql`.
+- **Database**: MySQL schema in `database/schema.mysql.sql`.
 
 ## Request flow
 1. Frontend module sends API request to backend.

@@ -2,7 +2,7 @@
 
 ## 1) Prerequisites
 - Node.js 20+
-- PostgreSQL 14+
+- MySQL 8.0+
 - npm
 
 ## 2) Clone and install
@@ -19,9 +19,21 @@ cp config/.env.example config/.env
 ```
 Update values in `backend/config/.env`.
 
-## 4) Initialize database
+## 4) Create and initialize MySQL database
 ```bash
-psql -U <user> -d <database> -f ../database/schema.sql
+mysql -u root -p
+```
+
+```sql
+CREATE DATABASE ls_inventory CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'lsinventory'@'localhost' IDENTIFIED BY 'replace_with_secure_password';
+GRANT ALL PRIVILEGES ON ls_inventory.* TO 'lsinventory'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+```
+
+```bash
+mysql -u lsinventory -p ls_inventory < ../database/schema.mysql.sql
 ```
 
 ## 5) Start backend
