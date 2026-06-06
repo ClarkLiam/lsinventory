@@ -2,17 +2,26 @@ import crypto from "node:crypto";
 
 import jwt from "jsonwebtoken";
 import type { Request, Response } from "express";
+import type { ResultSetHeader, RowDataPacket } from "mysql2/promise";
 
 import { query } from "../utils/database";
 
-interface UserRow {
+interface UserRow extends RowDataPacket {
   id: number;
   username: string;
   password_hash: string;
 }
 
+type AuthUser = {
+  id: number;
+  username: string;
+  password_hash: string;
+};
+
 const JWT_SECRET = process.env.JWT_SECRET || "development-secret";
-const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "12h";
+const JWT_EXPIRES_IN = (process.env.JWT_EXPIRES_IN || "12h") as jwt.SignOptions["expiresIn"];
+const DEFAULT_BOOTSTRAP_USERNAME = "lsinventory";
+const DEFAULT_BOOTSTRAP_PASSWORD = "ls";
 
 const hashPassword = (password: string): string =>
   crypto.createHash("sha256").update(password).digest("hex");
@@ -40,14 +49,11 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     [username],
   );
 
-  let user = rows[0];
+  let user: AuthUser | undefined = rows[0];
 
   if (!user) {
-    const bootstrapUsername = process.env.BOOTSTRAP_ADMIN_USERNAME;
-    const bootstrapPassword = process.env.BOOTSTRAP_ADMIN_PASSWORD;
-
-    if (bootstrapUsername && bootstrapPassword && username === bootstrapUsername && password === bootstrapPassword) {
-      const result = await query<{ insertId: number } & Record<string, unknown>>(
+    if (username === DEFAULT_BOOTSTRAP_USERNAME && password === DEFAULT_BOOTSTRAP_PASSWORD) {
+      const result = await query<ResultSetHeader>(
         "INSERT INTO users (username, password_hash) VALUES (?, ?)",
         [username, hashPassword(password)],
       );

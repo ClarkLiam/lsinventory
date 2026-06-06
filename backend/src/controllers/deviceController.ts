@@ -1,8 +1,9 @@
 import type { Request, Response } from "express";
+import type { ResultSetHeader, RowDataPacket } from "mysql2/promise";
 
 import { query } from "../utils/database";
 
-interface DeviceRow {
+interface DeviceRow extends RowDataPacket {
   id: number;
   invCode: string;
   unitId: string;
@@ -18,8 +19,8 @@ interface DeviceRow {
   updatedAt: Date;
 }
 
-interface InsertResult {
-  insertId: number;
+interface LocationRow extends RowDataPacket {
+  id: number;
 }
 
 const DEVICE_SELECT_FIELDS = `
@@ -55,7 +56,7 @@ const mapDeviceRow = (row: DeviceRow) => ({
 });
 
 const getStorageLocationId = async (): Promise<number | null> => {
-  const locations = await query<Array<{ id: number }>>("SELECT id FROM locations WHERE name = ? LIMIT 1", ["Storage"]);
+  const locations = await query<LocationRow[]>("SELECT id FROM locations WHERE name = ? LIMIT 1", ["Storage"]);
   return locations[0]?.id ?? null;
 };
 
@@ -88,7 +89,7 @@ const getNormalizedDeviceInput = async (body: Request["body"]) => {
     model: String(body.model).trim(),
     category: String(body.category).trim(),
     serialNumber: body.serialNumber ? String(body.serialNumber).trim() : null,
-    locationId: Number.isInteger(locationId) && locationId > 0 ? locationId : null,
+    locationId: typeof locationId === "number" && Number.isInteger(locationId) && locationId > 0 ? locationId : null,
     status: String(body.status || "available").trim() as DeviceRow["status"],
   };
 };
@@ -136,7 +137,7 @@ export const getDeviceById = async (req: Request, res: Response): Promise<void> 
 export const createDevice = async (req: Request, res: Response): Promise<void> => {
   const payload = await getNormalizedDeviceInput(req.body);
 
-  const result = await query<InsertResult>(
+  const result = await query<ResultSetHeader>(
     `
       INSERT INTO devices (
         inv_code,
@@ -184,7 +185,7 @@ export const updateDevice = async (req: Request, res: Response): Promise<void> =
 
   const payload = await getNormalizedDeviceInput(req.body);
 
-  const result = await query<{ affectedRows: number }>(
+  const result = await query<ResultSetHeader>(
     `
       UPDATE devices
       SET
@@ -237,7 +238,7 @@ export const deleteDevice = async (req: Request, res: Response): Promise<void> =
     return;
   }
 
-  const result = await query<{ affectedRows: number }>("DELETE FROM devices WHERE id = ?", [id]);
+  const result = await query<ResultSetHeader>("DELETE FROM devices WHERE id = ?", [id]);
 
   if (result.affectedRows === 0) {
     res.status(404).json({ message: "Device not found" });

@@ -52,6 +52,8 @@ lsinventory/
    ```bash
    cp config/.env.example config/.env
    ```
+   Set `JWT_SECRET`.
+   The built-in first login is `lsinventory` / `ls`.
 3. Initialize MySQL schema:
    ```bash
    mysql -u <user> -p <database> < ../database/schema.mysql.sql
@@ -87,7 +89,7 @@ See full details in `docs/API.md`.
 
 ## Configuration
 `backend/config/.env.example` includes:
-- Server: `PORT`, `NODE_ENV`, `JWT_SECRET`, `FRONTEND_URL`
+- Server: `PORT`, `NODE_ENV`, `JWT_SECRET`, `JWT_EXPIRES_IN`, `FRONTEND_URL`
 - MySQL: `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_CONNECTION_LIMIT`, `DB_QUEUE_LIMIT`
 
 ## Development Setup

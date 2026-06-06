@@ -5,7 +5,8 @@ Base URL: `/api`
 ## Auth
 - `POST /auth/login`
   - Body: `{ "username": "admin", "password": "..." }`
-  - Response: scaffold login confirmation
+  - Response: `{ "message": "Login successful", "token": "...", "user": { "id": 1, "username": "admin" } }`
+  - Include the returned token in `Authorization: Bearer <token>` for protected routes.
 - `POST /auth/logout`
 
 ## Devices

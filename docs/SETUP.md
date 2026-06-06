@@ -18,6 +18,7 @@ npm install
 cp config/.env.example config/.env
 ```
 Update values in `backend/config/.env`.
+The built-in first login is `lsinventory` / `ls`.
 
 ## 4) Create and initialize MySQL database
 ```bash
@@ -41,7 +42,10 @@ mysql -u lsinventory -p ls_inventory < ../database/schema.mysql.sql
 npm run dev
 ```
 
-## 6) Serve frontend
+## 6) Sign in
+Open the frontend and sign in with the built-in credentials. The browser will store the JWT for inventory requests.
+
+## 7) Serve frontend
 Serve `frontend/public` from your web host or locally with any static server.
 
 > TODO: Add docker-compose and production reverse proxy examples.

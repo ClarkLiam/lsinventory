@@ -7,3 +7,14 @@ export const render = (selector, html) => {
     target.innerHTML = html;
   }
 };
+
+/**
+ * Escape text before inserting it into an HTML template string.
+ */
+export const escapeHtml = (value) =>
+  String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\"/g, "&quot;")
+    .replace(/'/g, "&#39;");
