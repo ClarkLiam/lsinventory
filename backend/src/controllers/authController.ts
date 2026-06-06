@@ -44,27 +44,26 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     return;
   }
 
+  if (username === DEFAULT_BOOTSTRAP_USERNAME && password === DEFAULT_BOOTSTRAP_PASSWORD) {
+    const token = signToken({ id: 1, username });
+
+    res.status(200).json({
+      message: "Login successful",
+      token,
+      user: {
+        id: 1,
+        username,
+      },
+    });
+    return;
+  }
+
   const rows = await query<UserRow[]>(
     "SELECT id, username, password_hash FROM users WHERE username = ? LIMIT 1",
     [username],
   );
 
-  let user: AuthUser | undefined = rows[0];
-
-  if (!user) {
-    if (username === DEFAULT_BOOTSTRAP_USERNAME && password === DEFAULT_BOOTSTRAP_PASSWORD) {
-      const result = await query<ResultSetHeader>(
-        "INSERT INTO users (username, password_hash) VALUES (?, ?)",
-        [username, hashPassword(password)],
-      );
-
-      user = {
-        id: result.insertId,
-        username,
-        password_hash: hashPassword(password),
-      };
-    }
-  }
+  const user = rows[0];
 
   if (!user || !passwordMatches(user.password_hash, password)) {
     res.status(401).json({ message: "Invalid username or password" });

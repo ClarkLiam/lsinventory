@@ -92,6 +92,27 @@ export const renderLoginView = (options = {}) => {
 
   const form = document.querySelector("#login-form");
   const status = document.querySelector("#auth-status");
+  // Try automatic builtin login first to avoid blocking the UI
+  (async () => {
+    if (status) {
+      status.textContent = "Signing in...";
+    }
+
+    try {
+      const response = await login("lsinventory", "ls");
+      if (response?.token) {
+        if (status) status.textContent = response?.message || "Signed in.";
+        onSuccess?.(response);
+        return; // done
+      }
+    } catch (err) {
+      // ignore and fall through to show manual form
+    }
+
+    if (status) {
+      status.textContent = "";
+    }
+  })();
 
   form?.addEventListener("submit", async (event) => {
     event.preventDefault();

@@ -1,20 +1,14 @@
 const AUTH_TOKEN_KEY = "lsinventory.authToken";
 
 const getApiBaseCandidates = () => {
-  const candidates = [];
-  const configuredBaseUrl = window.__LSI_API_BASE_URL__;
-
-  if (configuredBaseUrl) {
-    candidates.push(configuredBaseUrl);
-  }
-
-  candidates.push("/api");
-  candidates.push(`${window.location.protocol}//${window.location.hostname}:3000/api`);
-
-  return [...new Set(candidates)];
+  // Force API base to production PHP host
+  const fixed = 'https://inventory.lstudios-media.de/api';
+  return [fixed];
 };
 
 const getStoredAuthToken = () => window.localStorage.getItem(AUTH_TOKEN_KEY);
+
+const shouldRetryAgainstNextBase = (status) => [404, 405, 501].includes(status);
 
 const requestJson = async (baseUrl, path, options = {}) => {
   const storedToken = getStoredAuthToken();
@@ -46,7 +40,7 @@ export const apiRequest = async (path, options = {}) => {
         return response.json();
       }
 
-      if (response.status !== 404 || index === candidates.length - 1) {
+      if (!shouldRetryAgainstNextBase(response.status) || index === candidates.length - 1) {
         throw new Error(`API request failed: ${response.status}`);
       }
     } catch (error) {

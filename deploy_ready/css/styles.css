@@ -1,0 +1,260 @@
+/* styles copied from frontend/public/css/styles.css */
+:root {
+	color-scheme: light;
+	font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+	--bg: #eef3f8;
+	--panel: #ffffff;
+	--panel-strong: #d9e2ec;
+	--text: #17212b;
+	--muted: #5f6d7a;
+	--accent: #1f6feb;
+	--accent-strong: #1558c0;
+	--danger: #b42318;
+	--success: #067647;
+	--border: #d3dbe3;
+	--shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+}
+
+body {
+	margin: 0;
+	background:
+		radial-gradient(circle at top left, rgba(31, 111, 235, 0.12), transparent 28%),
+		radial-gradient(circle at top right, rgba(6, 118, 71, 0.08), transparent 24%),
+		var(--bg);
+	color: var(--text);
+	min-height: 100vh;
+}
+
+.site-header {
+	background: rgba(23, 33, 43, 0.94);
+	color: #fff;
+	padding: 1rem 1.25rem;
+	box-shadow: var(--shadow);
+}
+
+.site-header h1 {
+	margin: 0;
+	letter-spacing: 0.03em;
+}
+
+.nav-list {
+	list-style: none;
+	padding: 0;
+	margin: 0.75rem 0 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+
+.nav-list button {
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	border-radius: 999px;
+	padding: 0.55rem 0.9rem;
+	cursor: pointer;
+	background: rgba(255, 255, 255, 0.08);
+	color: #fff;
+	transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.nav-list button:hover,
+.nav-list button:focus-visible,
+.secondary-button:hover,
+.secondary-button:focus-visible,
+.auth-form button:hover,
+.auth-form button:focus-visible,
+.device-form button:hover,
+.device-form button:focus-visible {
+	transform: translateY(-1px);
+}
+
+.nav-list button:hover,
+.nav-list button:focus-visible {
+	background: rgba(255, 255, 255, 0.16);
+}
+
+main {
+	padding: 1.25rem;
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+.page-shell,
+.auth-card,
+.panel {
+	background: var(--panel);
+	border: 1px solid var(--border);
+	border-radius: 20px;
+	box-shadow: var(--shadow);
+}
+
+.page-shell,
+.auth-card {
+	padding: 1.25rem;
+}
+
+.page-header,
+.page-header-split {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+	align-items: flex-start;
+	justify-content: space-between;
+}
+
+.eyebrow {
+	margin: 0 0 0.35rem;
+	color: var(--accent);
+	font-size: 0.82rem;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+.page-shell h2,
+.auth-card h2,
+.panel h3 {
+	margin: 0;
+}
+
+.page-shell p,
+.auth-card p,
+.panel p {
+	color: var(--muted);
+}
+
+.panel {
+	padding: 1rem;
+	margin-top: 1rem;
+}
+
+.auth-card {
+	display: grid;
+	gap: 1rem;
+	max-width: 560px;
+	margin: 2rem auto 0;
+}
+
+.auth-form,
+.device-form {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	gap: 0.85rem;
+}
+
+.auth-form label,
+.device-form label {
+	display: grid;
+	gap: 0.35rem;
+	font-size: 0.95rem;
+	color: var(--text);
+}
+
+.auth-form input,
+.device-form input,
+.device-form select {
+	border: 1px solid var(--border);
+	border-radius: 12px;
+	padding: 0.72rem 0.85rem;
+	font: inherit;
+	background: #fbfdff;
+}
+
+.auth-form button,
+.device-form button,
+.secondary-button {
+	border: 0;
+	border-radius: 999px;
+	padding: 0.8rem 1.1rem;
+	font: inherit;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.auth-form button,
+.device-form button {
+	background: var(--accent);
+	color: #fff;
+}
+
+.secondary-button {
+	background: #e8edf4;
+	color: var(--text);
+}
+
+.form-status {
+	min-height: 1.25rem;
+	margin: 0;
+	color: var(--muted);
+}
+
+.form-status.is-error {
+	color: var(--danger);
+}
+
+.table-wrap {
+	overflow-x: auto;
+}
+
+.device-table {
+	width: 100%;
+	border-collapse: collapse;
+	min-width: 760px;
+}
+
+.device-table th,
+.device-table td {
+	padding: 0.8rem 0.75rem;
+	border-bottom: 1px solid var(--border);
+	text-align: left;
+}
+
+.device-table th {
+	color: var(--muted);
+	font-size: 0.82rem;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+}
+
+.status-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	padding: 0.3rem 0.65rem;
+	border-radius: 999px;
+	font-size: 0.82rem;
+	font-weight: 700;
+}
+
+.status-available {
+	background: rgba(6, 118, 71, 0.12);
+	color: var(--success);
+}
+
+.status-assigned {
+	background: rgba(31, 111, 235, 0.12);
+	color: var(--accent-strong);
+}
+
+.status-maintenance {
+	background: rgba(180, 35, 24, 0.12);
+	color: var(--danger);
+}
+
+@media (min-width: 768px) {
+	.site-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.nav-list {
+		margin: 0;
+	}
+
+	.auth-card {
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+		align-items: center;
+	}
+}
+
+

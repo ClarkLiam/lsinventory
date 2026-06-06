@@ -1,3 +1,4 @@
+/** JS files copied from frontend/public/js — ensure these are deployed under /js/ **/
 import { hasAuthToken, renderLoginView } from "./auth.js";
 import { showInventory } from "./inventory.js";
 import { showMaintenance } from "./maintenance.js";
@@ -11,17 +12,12 @@ const views = {
   maintenance: showMaintenance,
 };
 
-/**
- * Initialize simple client-side view routing.
- */
 const initApp = () => {
   const navButtons = document.querySelectorAll("[data-view]");
   let activeView = "inventory";
 
   const renderView = (viewName) => {
     activeView = viewName;
-
-    // Sign-in disabled for now: directly render requested view
     const view = views[viewName] || showInventory;
     view();
   };

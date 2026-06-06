@@ -1,5 +1,5 @@
 import { apiRequest } from "./api.js";
-import { hasAuthToken, logout, renderLoginView } from "./auth.js";
+import { logout, renderLoginView } from "./auth.js";
 import { escapeHtml, render } from "./utils.js";
 
 const STATUS_LABELS = {
@@ -105,7 +105,11 @@ const bindInventoryActions = () => {
 
   deviceForm?.addEventListener("submit", submitDeviceForm);
   logoutButton?.addEventListener("click", async () => {
-    await logout();
+    try {
+      await logout();
+    } catch (_error) {
+      // Clear the local session even if the backend logout endpoint is unavailable.
+    }
     renderLoginView({ message: "You have been signed out.", onSuccess: showInventory });
   });
 };
@@ -114,11 +118,6 @@ const bindInventoryActions = () => {
  * Render inventory view.
  */
 export const showInventory = () => {
-  if (!hasAuthToken()) {
-    renderLoginView({ message: "Sign in to view and create devices.", onSuccess: showInventory });
-    return;
-  }
-
   render(
     "#app",
     `
